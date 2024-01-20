@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pwned</title>
+
+    <script src="https://cdn.tailwindcss.com"></script> 
+</head>
+<body>
+    <div class = "container mx-auto mt-20 password-container">   
+        <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2>
+        <form class = "flex justify-center items-center gap-x-4">   
+            <input type="text" id = "password" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "password" required />  
+            <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "pwdsbt">Check Password</button>  
+        </form> 
+        <div class = "flex justify-center password-feedback"></div>
+    </div>
+
+    <script defer> 
+        const pwd_btn = document.querySelector("#pwdsbt"); 
+        const password_feedback = document.querySelector(".password-feedback"); 
+        var password = document.querySelector("#password"); 
+        
+
+        function checkpassword(e){ 
+            e.preventDefault(); 
+
+            // if(password_feedback.firstChild){
+            //     password_feedback.remove(password_feedback.firstChild);  // Clears all Feedbacks before adding new one! 
+            // }
+            password_feedback.innerHTML = ""; // Clears all Feedbacks before adding new Ones 
+
+            var password = document.querySelector("#password").value;  
+            let data = JSON.stringify({password}); 
+            console.log(data); 
+            fetch("/password", {
+                method:"POST", 
+                headers:{"Content-Type":"application/json"}, 
+                body:data 
+            })
+            .then(data => data.json())
+            .then(data => {
+                console.log(data); 
+                if(data.breached){
+                    console.log("Breached!!"); 
+                    let s = document.createElement("span");
+                    s.innerText = "Your Password is Breached!"; 
+                    s.classList.add("breached-component"); 
+                    password_feedback.appendChild(s);  
+                }else{
+                    let s = document.createElement("span");
+                    s.innerText = "Your Password is safe to use :)"; 
+                    s.classList.add("safe-component"); 
+                    password_feedback.appendChild(s);  
+                }
+            }) 
+            .catch(err => {
+                console.log(err); 
+            })
+        }
+
+        pwd_btn.addEventListener("click", checkpassword);  
+    </script>
+
+<style type="text/tailwindcss">
+    @layer components{ 
+      .breached-component { 
+        @apply text-center my-8 py-3 px-8 bg-red-100 text-red-700 border-2 border-red-600 rounded-md max-w-md; 
+      }
+
+      .safe-component{
+        @apply text-center my-8 py-3 px-8 bg-teal-100 text-teal-700 border-2 border-teal-600 rounded-md max-w-md;
+      }
+    }
+  </style>
+
+</body>
+</html>

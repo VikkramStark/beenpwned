@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request 
+from flask import Flask, jsonify, request, render_template 
 from flask_sqlalchemy import SQLAlchemy 
 
 app = Flask(__name__) 
@@ -15,7 +15,7 @@ class WordList(db.Model):
 
 @app.get("/") 
 def home():
-    return jsonify({"message":"Hello World"}) 
+    return render_template("index.html");  
 
 @app.post("/password") 
 def pwned_passsword():
@@ -25,12 +25,12 @@ def pwned_passsword():
     password = str(request.json.get("password")) 
     print(password) 
     search_password = WordList.query.filter_by(word = password).first() 
-    print(f"search_rsult : {search_password}")     
+    print(f"search_result : {search_password}")     
 
     if search_password !=None: 
-        return jsonify({"found":search_password.word, "breached":True})    
+        return jsonify({"found":search_password.word, "breached":True}), 201    
     else:
-        return jsonify({"breached":False})   
+        return jsonify({"breached":False}), 201 
 
 if __name__ == "__main__":
     app.run(host = "localhost", port = 8000, debug = True) 
