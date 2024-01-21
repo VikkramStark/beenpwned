@@ -12,6 +12,21 @@ class WordList(db.Model):
 
     def __repr__(self):
         return f"Word<{self.word}>"  
+    
+class Email(db.Model):
+    id = db.Column(db.Integer, nullable = False, primary_key = True) 
+    email = db.Column(db.String(50), nullable = False) 
+
+    def __repr__(self):
+        return f"<Email {self.email}>" 
+
+class Phone(db.Model):
+    id = db.Column(db.Integer, nullable = False, primary_key = True) 
+    number = db.Column(db.BigInteger,nullable = False) 
+    name = db.Column(db.String(25), nullable = False) 
+
+    def __repr__(self):
+        return f"<Phone {self.number} - {self.name}>"   
 
 @app.get("/") 
 def home():
@@ -31,6 +46,29 @@ def pwned_passsword():
         return jsonify({"found":search_password.word, "breached":True}), 201    
     else:
         return jsonify({"breached":False}), 201 
+
+@app.post("/phone") 
+def pwned_number():
+    print(request.json) 
+    number = request.json.get("number") 
+    search_number = Phone.query.filter_by(number = number).first() 
+    print("Pwned Number Result:", search_number) 
+
+    if search_number != None:
+        return jsonify({"found":number, "name":search_number.name, "breached":True}), 201 
+    else:
+        return jsonify({"breached":False})   
+    
+@app.post("/email") 
+def pwned_email():
+    print(request.json) 
+    email = request.json.get("email") 
+    search_mail = Email.query.filter_by(email = email).first() 
+    print("Pwned Email Result:", search_mail) 
+    if search_mail != None:
+        return jsonify({"found":email,"breached":True}), 201 
+    else:
+        return jsonify({"breached":False}), 201  
 
 if __name__ == "__main__":
     app.run(host = "localhost", port = 8000, debug = True) 

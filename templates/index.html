@@ -8,19 +8,47 @@
     <script src="https://cdn.tailwindcss.com"></script> 
 </head>
 <body>
-    <div class = "container mx-auto mt-20 password-container">   
-        <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2>
-        <form class = "flex justify-center items-center gap-x-4">   
+    <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl mt-20 mb-20">Check if You are PWNED!</h2>
+
+    <div class = "container mx-auto mt-10 password-container max-w-xl pb-10 md:px-24">   
+        <form class = "flex justify-center items-center gap-x-4" onsubmit="(e) => checkpassword(e)">     
             <input type="text" id = "password" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "password" required />  
             <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "pwdsbt">Check Password</button>  
         </form> 
         <div class = "flex justify-center password-feedback"></div>
     </div>
 
+    <div class = "container mx-auto mt-5 pt-10 email-container max-w-xl border-t pb-10 border-slate-300 md:px-24">   
+        <!-- <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2> -->
+        <form class = "flex justify-center items-center gap-x-4" onsubmit = "(e) => checkemail(e)">     
+            <input type="email" id = "email" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "email" required />  
+            <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "emailsbt" >Check Email</button>  
+        </form> 
+        <div class = "flex justify-center email-feedback"></div>
+    </div>
+
+    <div class = "container mx-auto mt-5 pt-10 phone-container max-w-xl border-t pb-10 border-slate-300 md:px-24">       
+        <!-- <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2> -->
+        <form class = "flex justify-center items-center gap-x-4" onsubmit = "(e) => checkphone(e)">      
+            <input type="text" id = "phone" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg remove-arrow" name = "number" required />  
+            <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "phonesbt" >Check Mobile</button>  
+        </form> 
+        <div class = "flex justify-center phone-feedback"></div>
+    </div>
+
+
     <script defer> 
         const pwd_btn = document.querySelector("#pwdsbt"); 
         const password_feedback = document.querySelector(".password-feedback"); 
         var password = document.querySelector("#password"); 
+
+        const email_btn = document.querySelector("#emailsbt"); 
+        const email_feedback = document.querySelector(".email-feedback"); 
+        var email = document.querySelector("#email"); 
+        
+        const phone_btn = document.querySelector("#phonesbt"); 
+        const phone_feedback = document.querySelector(".phone-feedback"); 
+        var phone = document.querySelector("#phone");  
         
 
         function checkpassword(e){ 
@@ -61,6 +89,106 @@
         }
 
         pwd_btn.addEventListener("click", checkpassword);  
+
+
+        function checkemail(e){  
+            e.preventDefault(); 
+
+            // if(password_feedback.firstChild){
+            //     password_feedback.remove(password_feedback.firstChild);  // Clears all Feedbacks before adding new one! 
+            // }
+            email_feedback.innerHTML = ""; // Clears all Feedbacks before adding new Ones 
+
+            var email = document.querySelector("#email").value;  
+            if(!email.includes("@") || email.length<3){ 
+                alert("Invalid Email"); 
+                return false; 
+            }
+            let data = JSON.stringify({email}); 
+            console.log(data); 
+            fetch("/email", {
+                method:"POST", 
+                headers:{"Content-Type":"application/json"}, 
+                body:data 
+            })
+            .then(data => data.json())
+            .then(data => {
+                console.log(data); 
+                if(data.breached){
+                    console.log("Breached!!"); 
+                    let s = document.createElement("span");
+                    s.innerText = "Your Email is Breached!"; 
+                    s.classList.add("breached-component"); 
+                    email_feedback.appendChild(s);  
+                }else{
+                    let s = document.createElement("span");
+                    s.innerText = "Your Email is safe to use :)"; 
+                    s.classList.add("safe-component"); 
+                    email_feedback.appendChild(s);  
+                }
+            }) 
+            .catch(err => {
+                console.log(err); 
+            })
+        }
+
+        email_btn.addEventListener("click", checkemail); 
+
+
+        function checkphone(e){   
+            e.preventDefault(); 
+
+            // if(password_feedback.firstChild){
+            //     password_feedback.remove(password_feedback.firstChild);  // Clears all Feedbacks before adding new one! 
+            // }
+            phone_feedback.innerHTML = ""; // Clears all Feedbacks before adding new Ones 
+            try{
+            var phone = parseInt(document.querySelector("#phone").value);  
+            if(!phone){ 
+                alert("Invalid Numeric Input"); 
+                return false;  
+            }else if(!((phone+"").length == 10)){
+                alert("Invalid number of Digits"); 
+                return false; 
+            }   
+            }catch(err){
+                alert("Invalid Numeric Input"); 
+                return false; 
+            }
+            
+            let data = JSON.stringify({number:phone});  
+            console.log(data); 
+            fetch("/phone", {
+                method:"POST", 
+                headers:{"Content-Type":"application/json"}, 
+                body:data 
+            })
+            .then(data => data.json())
+            .then(data => {
+                console.log(data); 
+                if(data.breached){
+                    console.log("Breached!!"); 
+                    let s = document.createElement("span");
+                    s.innerText = `Your Phone Number is Breached! - Name: ${data.name}`;  
+                    s.classList.add("breached-component"); 
+                    phone_feedback.appendChild(s);  
+                }else{
+                    let s = document.createElement("span");
+                    s.innerText = "Your Phone Number is safe :)"; 
+                    s.classList.add("safe-component"); 
+                    phone_feedback.appendChild(s);  
+                }
+            }) 
+            .catch(err => {
+                console.log(err); 
+            })
+        }
+
+        phone_btn.addEventListener("click", checkphone);  
+        
+        
+
+
     </script>
 
 <style type="text/tailwindcss">
@@ -72,6 +200,15 @@
       .safe-component{
         @apply text-center my-8 py-3 px-8 bg-teal-100 text-teal-700 border-2 border-teal-600 rounded-md max-w-md;
       }
+    }
+
+    .remove-arrow::-webkit-inner-spin-button,
+    .remove-arrow::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    .remove-arrow {
+        -moz-appearance: textfield;
     }
   </style>
 
