@@ -7,33 +7,56 @@
 
     <script src="https://cdn.tailwindcss.com"></script> 
 </head>
-<body>
-    <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl mt-20 mb-20">Check if You are PWNED!</h2>
+<body class = "min-h-screen">    
+    <nav class = "flex px-4 py-2">  
+        <div class="logo py-4 px-6"> 
+            <h2 class = "text-white text-2xl"><span class = "font-semibold">DataSleuths </span><span class = "text-red-500">OSINT</span> </h2>
+        </div>
+    </nav>
 
-    <div class = "container mx-auto mt-10 password-container max-w-xl pb-10 md:px-24">   
-        <form class = "flex justify-center items-center gap-x-4" onsubmit="(e) => checkpassword(e)">     
-            <input type="text" id = "password" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "password" required />  
-            <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "pwdsbt">Check Password</button>  
-        </form> 
-        <div class = "flex justify-center password-feedback"></div>
-    </div>
+    <div class = "grid grid-cols-3"> 
 
-    <div class = "container mx-auto mt-5 pt-10 email-container max-w-xl border-t pb-10 border-slate-300 md:px-24">   
-        <!-- <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2> -->
-        <form class = "flex justify-center items-center gap-x-4" onsubmit = "(e) => checkemail(e)">     
-            <input type="email" id = "email" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "email" required />  
-            <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "emailsbt" >Check Email</button>  
-        </form> 
-        <div class = "flex justify-center email-feedback"></div>
-    </div>
+        <div class = "max-w-2xl mx-auto rounded-3xl backdrop-blur-md py-4 px-6 col-span-2">     
+            <h2 class = "text-center font-semibold text-slate-100 my-10 text-3xl mt-20 mb-20 backdrop-blur-xl">Check if You are PWNED!</h2>
 
-    <div class = "container mx-auto mt-5 pt-10 phone-container max-w-xl border-t pb-10 border-slate-300 md:px-24">       
-        <!-- <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2> -->
-        <form class = "flex justify-center items-center gap-x-4" onsubmit = "(e) => checkphone(e)">      
-            <input type="text" id = "phone" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg remove-arrow" name = "number" required />  
-            <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "phonesbt" >Check Mobile</button>  
-        </form> 
-        <div class = "flex justify-center phone-feedback"></div>
+            <div class = "container mx-auto mt-10 password-container max-w-xl pb-10 md:px-24">  
+                <h2 class = "my-2 text-white px-2 underline underline-offset-4">Enter Password to Check :</h2>   
+                <form class = "flex justify-center items-center gap-x-4" onsubmit="(e) => checkpassword(e)">     
+                    <input type="text" id = "password" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "password" required />  
+                    <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "pwdsbt">Check Password</button>  
+                </form> 
+                <div class = "flex justify-center password-feedback"></div>
+            </div>
+
+            <div class = "container mx-auto mt-5 pt-10 email-container max-w-xl border-t pb-10 border-slate-300 md:px-24">   
+                <!-- <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2> -->
+                <h2 class = "my-2 text-white px-2 underline underline-offset-4">Enter Email to Check :</h2>
+                <form class = "flex justify-center items-center gap-x-4" onsubmit = "(e) => checkemail(e)">     
+                    <input type="email" id = "email" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg " name = "email" required />  
+                    <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "emailsbt" >Check Email</button>  
+                </form> 
+                <div class = "flex justify-center email-feedback"></div>
+            </div>
+
+            <div class = "container mx-auto mt-5 pt-10 phone-container max-w-xl border-t pb-10 border-slate-300 md:px-24">       
+                <!-- <h2 class = "text-center font-semibold text-slate-700 my-10 text-3xl">Check if You are PWNED!</h2> -->
+                <h2 class = "my-2 text-white px-2 underline underline-offset-4">Enter Mobile Number to Check :</h2>
+                <form class = "flex justify-center items-center gap-x-4" onsubmit = "(e) => checkphone(e)">      
+                    <input type="text" id = "phone" class = "px-2 py-1 border-2 border-slate-700 rounded-md text-lg remove-arrow" name = "number" required />  
+                    <button class = "px-3 py-2 bg-teal-500 rounded-md hover:bg-teal-600 shadow-md shadow-slate-400 focus:shadow-sm text-sm font-semibold" type = "submit" id = "phonesbt" >Check Mobile</button>  
+                </form> 
+                <div class = "flex justify-center phone-feedback"></div>
+            </div>
+        </div>
+
+        <div class = "bg-black h-full px-4 rounded-lg py-4 my-2">   
+            <h2 class = "text-xl uppercase text-center text-white border-b-2 border-dashed py-2 border-red-400">Hack History</h2>
+
+            <div id = "history"> 
+                <h2 class = "">This is A history</h2>
+            </div>
+        </div>
+
     </div>
 
 
@@ -69,6 +92,7 @@
             })
             .then(data => data.json())
             .then(data => {
+                writeHistory(data); 
                 console.log(data); 
                 if(data.breached){
                     console.log("Breached!!"); 
@@ -114,6 +138,7 @@
             .then(data => data.json())
             .then(data => {
                 console.log(data); 
+                writeHistory(data);  
                 if(data.breached){
                     console.log("Breached!!"); 
                     let s = document.createElement("span");
@@ -165,6 +190,7 @@
             })
             .then(data => data.json())
             .then(data => {
+                writeHistory(data); 
                 console.log(data); 
                 if(data.breached){
                     console.log("Breached!!"); 
@@ -184,7 +210,22 @@
             })
         }
 
-        phone_btn.addEventListener("click", checkphone);  
+        phone_btn.addEventListener("click", checkphone); 
+        
+        
+        const history = document.querySelector("#history"); 
+        
+        function writeHistory(message){ 
+            let h = document.createElement("h2"); 
+            h.innerText = JSON.stringify(message); 
+            h.classList.add("history-track"); 
+            if(message["breached"]){
+                h.classList.add("text-red-600")   
+            }else{
+                h.classList.add("text-teal-700") 
+            }
+            history.appendChild(h);  
+        }
         
         
 
@@ -202,6 +243,18 @@
       }
     }
 
+    body{
+        background-image:url("{{url_for('static', filename = 'cyber.jpg')}}"); 
+        background-repeat:no-repeat; 
+        background-size:cover;
+        background-position:50% 50%;   
+    }
+
+    .history-track{
+        @apply text-center py-3 border-b border-slate-400; 
+    }
+
+
     .remove-arrow::-webkit-inner-spin-button,
     .remove-arrow::-webkit-outer-spin-button {
         -webkit-appearance: none;
@@ -210,6 +263,8 @@
     .remove-arrow {
         -moz-appearance: textfield;
     }
+
+    
   </style>
 
 </body>
